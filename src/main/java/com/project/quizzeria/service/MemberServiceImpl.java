@@ -1,0 +1,162 @@
+package com.project.quizzeria.service;
+
+import com.project.quizzeria.dto.MemberDTO;
+import com.project.quizzeria.entity.Member;
+import com.project.quizzeria.repository.MemberRepository;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
+
+@Service
+@Log4j2
+@RequiredArgsConstructor
+public class MemberServiceImpl implements UserDetailsService  {
+
+    private final MemberRepository memberRepository;
+
+
+
+    /**
+     * Spring Security 필수 메소드 구현
+     *
+     * @param id
+     * @return UserDetails
+     * @throws UsernameNotFoundException 유저가 없을 때 예외 발생
+     */
+    @Override
+    public Member loadUserByUsername(String id) throws UsernameNotFoundException {
+        return memberRepository.findById(id)
+                .orElseThrow(() -> new UsernameNotFoundException((id)));
+    }
+
+
+
+    /**
+     * 회원정보 저장
+     *
+     * @param memberDTO 회원정보가 들어있는 DTO
+     * @return 저장되는 회원의 PK
+     */
+    public Long save(MemberDTO memberDTO){
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        memberDTO.setPassword(encoder.encode(memberDTO.getPassword()));
+
+        return memberRepository.save(Member.builder()
+                .id(memberDTO.getId())
+                .password(memberDTO.getPassword())
+                .email(memberDTO.getEmail())
+                .name(memberDTO.getName())
+                .age(memberDTO.getAge())
+                .job(memberDTO.getJob())
+                .tel(memberDTO.getTel())
+                .addr(memberDTO.getAddr())
+                .auth(memberDTO.getAuth())
+                .regDate(memberDTO.getRegDate())
+                .hidden(memberDTO.getHidden())
+                .build()).getMno();
+    }
+
+    /**
+     * 사용자 정보를 아이디로 조회
+     *
+     * @param id 조회할 사용자의 아이디
+     * @return 조회된 사용자 정보
+     * @throws UsernameNotFoundException 유저가 없을 때 예외 발생
+     */
+
+
+
+}
+
+//    @Autowired
+//    private PasswordEncoder passwordEncoder;
+
+
+
+//    @Override
+//    public Member save(Member member){
+//        String encodedPassword = passwordEncoder.encode(member.getPassword());
+//        member.setPassword(encodedPassword);
+//        member.setEnabled(true);
+//        Role role = new Role();
+//        role.setRno(1l);
+//        member.getRoles().add(role);
+//        return repository.save(member);
+//    }
+
+
+
+//    public User save(User user) {
+//        String encodedPassword = passwordEncoder.encode(user.getPassword());
+//        user.setPassword(encodedPassword);
+//        user.setEnabled(true);
+//        Role role = new Role();
+//        role.setId(1l);
+//        user.getRoles().add(role);
+//        return userRepository.save(user);
+//    }
+
+//    @Override
+//    public String register(MemberDTO dto){
+//        log.info("Member Register Start");
+//        Member entity = dtoToEntity(dto);
+//        repository.save(entity);
+//        log.info("Member Register End");
+//        return entity.getId();
+//    }
+//
+//    @Override
+//    public PageResultDTO<MemberDTO, Member> getList(PageRequestDTO requestDTO){
+//        log.info("Member Page Build Start");
+//        Pageable pageable = requestDTO.getPageable(Sort.by("id").descending());
+//        BooleanBuilder booleanBuilder = getSearch(requestDTO);
+//        Page<Member> result = repository.findAll(booleanBuilder, pageable);
+//        Function<Member, MemberDTO> fn = (entity->entityToDTO(entity));
+//        log.info("Member Page Build End");
+//        return new PageResultDTO<>(result, fn);
+//    }
+//
+//
+//    @Override
+//    public void modify(MemberDTO dto){
+//        log.info("Member Modify Start");
+//        Optional<Member> result = repository.findById(dto.getMno());
+//
+//        if(result.isPresent()){
+//            Member entity = result.get();
+//
+//            entity.changePassword(dto.getPassword());
+//            entity.changeJob(dto.getJob());
+//            entity.changeTel(dto.getTel());
+//            entity.changeAddr(dto.getAddr());
+////            entity.changeProfile(dto.getProfileImg());
+//
+//            log.info("Member Modify Success");
+//            repository.save(entity);
+//        }
+//        log.info("Member Modify End");
+//    }
+//
+//    private BooleanBuilder getSearch(PageRequestDTO requestDTO){
+//        log.info("Member Search Start");
+//        String type = requestDTO.getType();
+//        BooleanBuilder booleanBuilder = new BooleanBuilder();
+//        QMember qMember = QMember.member;
+//        String keyword = requestDTO.getKeyword();
+//        BooleanExpression expression = qMember.mno.gt(0L);
+//        booleanBuilder.and(expression);
+//        if(type == null || type.trim().length() == 0){
+//            return booleanBuilder;
+//        }
+//
+//        BooleanBuilder conditionBuilder = new BooleanBuilder();
+//        if(type.contains("i")){
+//            conditionBuilder.or(qMember.id.contains(keyword));
+//        }
+//        booleanBuilder.and(conditionBuilder);
+//        log.info("Member Search End");
+//        return booleanBuilder;
+//    }

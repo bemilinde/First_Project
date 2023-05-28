@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Make a new Quiz!</title>
+
+    <script th:src="@{/css/js/quiz/quiz_create_title.js}"></script>
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+    <link th:href="@{/css/quiz/quiz_create_title.css}" rel="stylesheet">
+</head>
+<body>
+    <header th:replace="/layout/header_layout :: header_layout"></header>
+<!--
+퀴즈 제목 입력
+
+카테고리 선택
+
+문제 입력
+문제 유형 선택
+    유형에 따라 답 입력
+
+page를 여러개 나누면?
+퀴즈 제목 + 카테고리 입력
+문제 + 답 입력
+두개로 나눠서 제목, 카테고리 받은거 저장하고 문제 답 입력 페이지에 띄워주면서
+원하는 문제 만큼 계속 추가
+최대 20문제 제한
+-->
+    <div id="container">
+        <div id="left">
+            <form class="quizTitleForm" th:action="@{/quiz/quiz_create_title}" method="post">
+                <div class="form-group row">
+                    <label for="staticUserName" class="col-sm-2 col-form-label">User:</label>
+                    <div class="col-sm-10">
+                        <input type="text" readonly="" class="form-control-plaintext" id="staticUserName" th:value="${#authentication.principal.name}">
+                    </div>
+                </div>
+                <div class="textForm">
+                    <input id="form_title" name="quizTitle" type="text" class="form-control" placeholder="퀴즈 타이틀">
+                </div>
+                <div class="textForm">
+                    <select id="form_category" name="category" type="text" class="form-control" placeholder="카테고리 선택">
+                        <option value="" disabled selected hidden>카테고리 선택</option>
+                        <option value="english">영어</option>
+                        <option value="math">수학</option>
+                        <option value="science">과학</option>
+                        <option value="history">역사</option>
+                        <option value="others">기타</option>
+                    </select>
+                </div>
+                <input type="submit" class="btn" onclick="" value="문제 만들기 >>"/>
+            </form>
+        </div>
+        <div id="right">
+            <div class="banner">
+                <img th:src="@{/css/images/quiz/banner1.jpg}" alt="뭉치배너"/>
+            </div>
+        </div>
+    </div>
+
+    <footer th:replace="/layout/footer_layout :: footer_layout"></footer>
+</body>
+</html>

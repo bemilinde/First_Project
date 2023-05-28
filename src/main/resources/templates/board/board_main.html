@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<link th:href="@{/css/style.css}" rel="stylesheet">
+<link th:href="@{/css/board/board_main.css}" rel="stylesheet">
+<script th:src="@{/css/js/board/board.js}" defer></script>
+
+<body>
+
+<header th:replace="/layout/header_layout :: header_layout"></header>
+
+<div id="board_banner">
+  <div id="banner">
+    <img th:src="@{/css/images/board/board_banner1.jpg}" alt="배너1">
+    <img th:src="@{/css/images/board/board_banner2.jpg}" alt="배너2" style="display: none">
+    <img th:src="@{/css/images/board/board_banner3.jpg}" alt="배너3" style="display: none">
+  </div>
+</div>
+
+<div id="container_main">
+
+      <h1 class = "mt-4" id="board_header">Quizzeria 게시판
+        <span>
+           <a th:href="@{/board/board_register}">
+             <button type="button" class="btn btn-outline-primary" style="margin-top: 30px; float: right">새글쓰기</button>
+           </a>
+        </span>
+      </h1>
+
+      <div id="board_section" th:fragment="board_section">
+          <table class="table table-hover">
+            <thead>
+            <tr>
+              <th scope="col" style="width: 10%;" class="text-center">글번호</th>
+              <th scope="col" style="width: 33%;" class="text-center">제목</th>
+              <th scope="col" style="width: 15%;" class="text-center">글쓴이</th>
+              <th scope="col" style="width: 7%;" class="text-center">조회수</th>
+              <th scope="col" style="width: 7%;" class="text-center">추천수</th>
+              <th scope="col" style="width: 16%;" class="text-center">게시일</th>
+            </tr>
+            </thead>
+            <today>
+
+              <tr id="board_table" th:each="dto : ${result.dtoList}">
+                <td class="text-center">[[${dto.bno}]]</td>
+                <th scope="row">
+                  <a th:href="@{/board/board_view(bno=${dto.bno})}">
+                    [[${dto.title}]]
+                  </a>
+                </th>
+                <td class="text-center">[[${dto.member.id}]]</td>
+                <td class="text-center">[[${dto.views}]]</td>
+                <td class="text-center">[[${dto.likes}]]</td>
+                <td class="text-center">[[${#temporals.format(dto.regDate, 'yyyy/MM/dd')}]]</td>
+              </tr>
+            </today>
+          </table>
+
+        <ul class="pagination h-100 justify-content-center align-items-center">
+          <li class="page-item" th:if="${result.prev}">
+            <a class="page-link" th:href="@{/board/board_main(page=${result.start -1},
+                type=${pageRequestDTO.type},
+                keyword = ${pageRequestDTO.keyword})}" tabindex="-1">previous</a>
+          </li>
+
+          <li th:class=" 'page-item' + ${result.page == page?'active':''}" th:each="page:${result.pageList}">
+            <a class="page-link" th:href="@{/board/board_main(page=${page},
+                type = ${pageRequestDTO.type},
+                keyword = ${pageRequestDTO.keyword} )}">[[${page}]]</a>
+          </li>
+
+          <li th:class="page-item" th:if="${result.next}">
+            <a class="page-link" th:href="@{/board/board_main(page=${result.end +1},
+                type=${pageRequestDTO.type},
+                keyword = ${pageRequestDTO.keyword} )}">Next</a>
+          </li>
+        </ul>
+
+
+      </div>
+    </div>
+
+
+<footer th:replace="/layout/footer_layout :: footer_layout"></footer>
+
+</body>
+
+
+
+
+</html>
