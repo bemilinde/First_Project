@@ -15,8 +15,6 @@ public interface BoardService {
 
     List<Board> getListHome();
 
-//    ArrayList<Board> getListHome();
-
     BoardDTO read(Long bno);
 
     void modify(BoardDTO dto);
@@ -45,8 +43,6 @@ public interface BoardService {
                 .title(entity.getTitle())
                 .content(entity.getContent())
                 .member(entity.getMember())
-                .regDate(entity.getRegDate())
-                .modDate(entity.getModDate())
                 .hidden(entity.getHidden())
                 .category(entity.getCategory())
                 .likes(entity.getLikes())

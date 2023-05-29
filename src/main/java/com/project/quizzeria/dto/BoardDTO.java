@@ -1,6 +1,7 @@
 package com.project.quizzeria.dto;
 
 import com.project.quizzeria.entity.Member;
+import com.project.quizzeria.entity.BaseEntity;
 import lombok.*;
 
 import java.time.LocalDateTime;

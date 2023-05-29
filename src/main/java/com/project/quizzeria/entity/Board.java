@@ -2,12 +2,9 @@ package com.project.quizzeria.entity;
 
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
 @Builder
@@ -16,7 +13,7 @@ import java.time.LocalDateTime;
 @Getter
 @EntityListeners(value = { AuditingEntityListener.class })
 @ToString(exclude = {"member"})
-public class Board {
+public class Board extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long bno;
@@ -26,14 +23,6 @@ public class Board {
 
     @Column(length = 1500, nullable = false)
     private String content;
-
-    @CreatedDate
-    @Column(updatable = false)
-    private LocalDateTime regDate;
-
-    @LastModifiedDate
-    @Column
-    private LocalDateTime modDate;
 
     @ColumnDefault("'N'")
     @Column(length = 10, nullable = false)

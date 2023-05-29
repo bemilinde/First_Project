@@ -1,36 +1,30 @@
 package com.project.quizzeria.service;
 
+import com.project.quizzeria.dto.BoardDTO;
 import com.project.quizzeria.dto.PageRequestDTO;
 import com.project.quizzeria.dto.PageResultDTO;
 import com.project.quizzeria.dto.QuizDTO;
+import com.project.quizzeria.entity.Board;
 import com.project.quizzeria.entity.Quiz;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
 public interface QuizService {
 
-    Long register(QuizDTO dto);
+    Long create(QuizDTO dto);
 
-    PageResultDTO<QuizDTO, Quiz> getList(PageRequestDTO requestDTO);
+    PageResultDTO<QuizDTO, Quiz> getQuiz(PageRequestDTO requestDTO);
 
-//    Optional<Quiz> getRandomQuiz();
-
-    List<Quiz> read(Long qlno);
-
-//    void modify(QuizDTO dto);
+    QuizDTO getRandomQuiz();
 
     default Quiz dtoToEntity(QuizDTO dto){
         Quiz entity = Quiz.builder()
                 .qno(dto.getQno())
+                .member(dto.getMember())
+                .title(dto.getTitle())
+                .choices(dto.getChoices())
                 .question(dto.getQuestion())
-                .quizList(dto.getQuizList())
-                .hidden(dto.getHidden())
-                .likes(dto.getLikes())
-                .quizFile(dto.getQuizFile())
-                .type(dto.getType())
-                .quizAnswer(dto.getQuizAnswer())
+                .answer(dto.getAnswer())
                 .build();
         return entity;
     }
@@ -38,14 +32,13 @@ public interface QuizService {
     default QuizDTO entityToDTO(Quiz entity){
         QuizDTO dto = QuizDTO.builder()
                 .qno(entity.getQno())
+                .member(entity.getMember())
+                .title(entity.getTitle())
+                .choices(entity.getChoices())
                 .question(entity.getQuestion())
-                .quizList(entity.getQuizList())
-                .hidden(entity.getHidden())
-                .likes(entity.getLikes())
-                .quizFile(entity.getQuizFile())
-                .type(entity.getType())
-                .quizAnswer(entity.getQuizAnswer())
+                .answer(entity.getAnswer())
                 .build();
         return dto;
     }
+
 }

@@ -1,81 +1,53 @@
 package com.project.quizzeria.controller;
 
+import com.project.quizzeria.dto.BoardDTO;
 import com.project.quizzeria.dto.PageRequestDTO;
-import com.project.quizzeria.dto.QuizListDTO;
-import com.project.quizzeria.entity.Quiz;
-import com.project.quizzeria.entity.QuizAnswer;
-import com.project.quizzeria.service.QuizAnswerService;
-import com.project.quizzeria.service.QuizListReplyService;
-import com.project.quizzeria.service.QuizListService;
+import com.project.quizzeria.dto.QuizDTO;
+import com.project.quizzeria.entity.Member;
+import com.project.quizzeria.repository.MemberRepository;
 import com.project.quizzeria.service.QuizService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @Log4j2
-@RequestMapping("/quiz/")
+@RequestMapping("/")
 @RequiredArgsConstructor
 public class QuizController {
 
-    private final QuizListService quizListService;
     private final QuizService quizService;
-    private final QuizListReplyService quizListReplyService;
-    private final QuizAnswerService quizAnswerService;
 
-    @GetMapping("/quiz_main")
-    public void Quiz_main(PageRequestDTO pageRequestDTO, Model model){
+    @GetMapping("/quiz/quiz_main")
+    public void quizMain(PageRequestDTO pageRequestDTO, Model model) {
         log.info("Quiz_main In");
-        int size = quizListService.getList(pageRequestDTO).getDtoList().size();
-        model.addAttribute("quizlist", quizListService.getList(pageRequestDTO));
-        model.addAttribute("size", size);
+        model.addAttribute("read", quizService.getQuiz(pageRequestDTO));
     }
 
-    @GetMapping("/quiz_view")
-    public void Quiz_view(Model model, long qlno, int index){
-        log.info("Quiz_view In");
-        QuizListDTO quizListDTO = quizListService.read(qlno);
-        List<Quiz> quiz = quizService.read(qlno);
-        List<QuizAnswer> quizAnswer = quizAnswerService.read(quiz.get(index).getQno());
+//    @GetMapping({"/board/board_main"})
+//    public void Board(PageRequestDTO pageRequestDTO, Model model) {
+//        log.info("Quizzeria_Board In" + pageRequestDTO);
+//        model.addAttribute("result", boardService.getList(pageRequestDTO));
+//    }
 
-//        System.out.println("quizListDTO >>>>>>>>>>>>>>>>>>>>>>>>>>>>> " + quizListDTO);
-//        System.out.println("quiz >>>>>>>>>>>>>>>>>>>>>>>>>>>>> " + quiz);
-//        System.out.println("quizAnswer >>>>>>>>>>>>>>>>>>>>>>>>>>>>> " + quizAnswer);
-
-        model.addAttribute("quizListDTO", quizListDTO);
-        model.addAttribute("quiz", quiz);
-        model.addAttribute("quizAnswer", quizAnswer);
-
-        model.addAttribute("index", index);
-        model.addAttribute("comments", quizListReplyService.getList(qlno));
+    @GetMapping({"/quiz/quiz_create"})
+    public void create(){
+        log.info("quiz_create In");
+    }
+    @PostMapping({"/quiz/quiz_create"})
+    public String createPost(QuizDTO dto, PageRequestDTO pageRequestDTO, Model model){
+        log.info("dto..." + dto);
+        Long qno = quizService.create(dto);
+        log.info("BNO: " + qno);
+        model.addAttribute("read", quizService.getQuiz(pageRequestDTO));
+        return "/quiz/quiz_main";
     }
 
-    @GetMapping("/quiz_create_title")
-    public void Quiz_create_get(){
-
-    }
-
-    @PostMapping("/quiz_create_title")
-    public String Quiz_create_post(){
 
 
-        return "redirect:/quiz/quiz_create_question";
-    }
-
-    @GetMapping("/quiz_create_question")
-    public void Quiz_question_get(){
-
-    }
-
-    @PostMapping("/quiz_create_question")
-    public String Quiz_question_post(){
-
-        return "redirect:/quiz/quiz_view";
-    }
 }
+

@@ -4,12 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Quizzeria</title>
-
     <script th:src="@{/css/js/main/home.js}" defer></script>
     <link th:href="@{/css/style.css}" rel="stylesheet">
     <link th:href="@{/css/main/home.css}" rel="stylesheet">
 </head>
-
     <body>
         <header th:replace="/layout/header_layout :: header_layout"></header>
 
@@ -26,50 +24,33 @@
             <div id="content">
                 <div id="today_Quiz">
                     <div id="quiz_title">
-                        <h2>Today's Quiz!</h2>
+                        <h2>Today's Random Quiz!</h2>
                     </div>
-                    <div id="question">
-                        <div class="card">
-                            <div class="question">[[${quizAnswer.get(0).quiz.question}]]</div>
-                            <div class="answer" th:each="dto : ${quizAnswer}">
-                                <p th:if="${dto.correct eq 'Y'}">[[${dto.answer}]]</p>
+                    <div class="card">
+                        <div id="ran_question" class="text-center">
+                            [[${quiz.question}]]
+                        </div>
+                        <div id="ran_choices">
+                            <div id="ran_c_1">
+                                <button id="btn-4-1" type="button" class="btn btn-outline-secondary btn1" value="[[${quiz.choices[0]}]]">[[${quiz.choices[0]}]]</button>
                             </div>
-                        </div>
-                    </div>
-                    <div id="answer">
-                        <div th:if="${quizAnswer.get(0).quiz.type eq 'Subjective'}" class="input-group mb-3">
-                            <input type="text" class="form-control" style="height: 100px;" placeholder="정답을 입력해 주세요" aria-label="Recipient's username" aria-describedby="button-addon2">
-                            <button class="btn btn-primary" type="button" id="button-addon2" value="Y">Submit</button>
-                        </div>
-                        <div th:if="${quizAnswer.get(0).quiz.type eq 'BinaryChoice'}" class="input-group mb-3">
-                            <button id="btn-2-1" type="button" class="btn btn-secondary"  th:value="${quizAnswer.get(0).correct}">[[${quizAnswer.get(0).answer}]]</button>
-                            <button id="btn-2-2" type="button" class="btn btn-secondary"  th:value="${quizAnswer.get(1).correct}">[[${quizAnswer.get(1).answer}]]</button>
-                        </div>
-                        <div th:if="${quizAnswer.get(0).quiz.type eq 'TernaryChoice'}" class="input-group mb-3">
-                            <button id="btn-3-1" type="button" class="btn btn-secondary"  th:value="${quizAnswer.get(0).correct}">[[${quizAnswer.get(0).answer}]]</button>
-                            <button id="btn-3-2" type="button" class="btn btn-secondary"  th:value="${quizAnswer.get(1).correct}">[[${quizAnswer.get(1).answer}]]</button>
-                            <button id="btn-3-3" type="button" class="btn btn-secondary"  th:value="${quizAnswer.get(2).correct}">[[${quizAnswer.get(2).answer}]]</button>
-                        </div>
-                        <div th:if="${quizAnswer.get(0).quiz.type eq 'MultipleChoice'}" class="input-group mb-3">
-                            <button id="btn-4-1" type="button" class="btn btn-secondary"  th:value="${quizAnswer.get(0).correct}">[[${quizAnswer.get(0).answer}]]</button>
-                            <button id="btn-4-2" type="button" class="btn btn-secondary"  th:value="${quizAnswer.get(1).correct}">[[${quizAnswer.get(1).answer}]]</button>
-                            <button id="btn-4-3" type="button" class="btn btn-secondary"  th:value="${quizAnswer.get(2).correct}">[[${quizAnswer.get(2).answer}]]</button>
-                            <button id="btn-4-4" type="button" class="btn btn-secondary"  th:value="${quizAnswer.get(3).correct}">[[${quizAnswer.get(3).answer}]]</button>
-                        </div>
+                            <div id="ran_c_2">
+                                <button id="btn-4-2" type="button" class="btn btn-outline-secondary btn2" value="[[${quiz.choices[1]}]]">[[${quiz.choices[1]}]]</button>
+                            </div>
+                            <div id="ran_c_3">
+                                <button id="btn-4-3" type="button" class="btn btn-outline-secondary btn3" value="[[${quiz.choices[2]}]]">[[${quiz.choices[2]}]]</button>
+                            </div>
+                            <div id="ran_c_4">
+                                <button id="btn-4-4" type="button" class="btn btn-outline-secondary btn4" value="[[${quiz.choices[3]}]]">[[${quiz.choices[3]}]]</button>
+                            </div>
 
-                    </div>
-                    <div id="dailyQuiz_btn">
-                        <button type="button" class="btn btn-primary" onclick="location.href='../quiz/quiz_view?qlno=1&index=0'">퀴즈 보러 가기</button>
-                        <button type="button" class="btn btn-primary" onclick="location.href='../quiz/quiz_main'">퀴즈 리스트 보기</button>
+                        </div>
                     </div>
                 </div>
                 <div id="notice"> <!-- 홈에서 보이는 공지는 5~6개 까지만 표시, 중요공지 2개 + 최신공지 4개 -->
                     <div id="notice_top">
                         <div id="notice_title">
                             <h2>공지사항</h2>
-                        </div>
-                        <div id="notice_btn">
-                            <a th:href="@{/main/notice}">공지사항&raquo;</a>
                         </div>
                     </div>
                     <div id="notice_contents">
@@ -147,5 +128,42 @@
 
         <footer th:replace="/layout/footer_layout :: footer_layout"></footer>
     </body>
+<script th:inline="javascript">
 
+    function checkAnswer(selectedChoice) {
+        // 서버로부터 받은 Quiz 객체의 choices와 answer를 가져옵니다.
+        var choices = JSON.parse(`[[${quiz.choices}]]`);
+        var answer = [[${quiz.answer}]];
+
+        // 선택한 선택지와 정답 비교
+        if (selectedChoice === answer) {
+            // 정답인 경우
+            alert('정답입니다!');
+            // 여기에 정답 처리에 대한 추가적인 동작을 추가할 수 있습니다.
+        } else {
+            // 오답인 경우
+            alert('오답입니다!');
+            // 여기에 오답 처리에 대한 추가적인 동작을 추가할 수 있습니다.
+        }
+    }
+
+    // 선택지 버튼 클릭 이벤트 처리
+    document.getElementById('btn-4-1').addEventListener('click', function() {
+        var selectedChoice = document.getElementById('btn-4-1').value;
+        checkAnswer(selectedChoice);
+    });
+    document.getElementById('btn-4-2').addEventListener('click', function() {
+        var selectedChoice = document.getElementById('btn-4-2').value;
+        checkAnswer(selectedChoice);
+    });
+    document.getElementById('btn-4-3').addEventListener('click', function() {
+        var selectedChoice = document.getElementById('btn-4-3').value;
+        checkAnswer(selectedChoice);
+    });
+    document.getElementById('btn-4-4').addEventListener('click', function() {
+        var selectedChoice = document.getElementById('btn-4-4').value;
+        checkAnswer(selectedChoice);
+    });
+
+</script>
 </html>

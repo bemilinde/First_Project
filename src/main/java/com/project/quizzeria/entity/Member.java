@@ -1,26 +1,20 @@
 package com.project.quizzeria.entity;
 
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
-import org.springframework.data.annotation.CreatedDate;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Getter
-public class Member implements UserDetails {
+@Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class Member extends BaseEntity implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -53,16 +47,15 @@ public class Member implements UserDetails {
     @Column(length = 50)
     private String addr;
 
-    @CreatedDate
-    @Column(updatable = false)
-    private LocalDateTime regDate;
-
     @ColumnDefault("'N'")
     @Column(length = 10, nullable = false)
     private String hidden;
 
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<Quiz> quizzes = new ArrayList<>();
+
     @Builder
-    public Member(Long mno, String id,String password, String email, String name, int age, String job, String tel, String addr, String auth, LocalDateTime regDate, String hidden){
+    public Member(Long mno, String id, String password, String email, String name, int age, String job, String tel, String addr, String auth, String hidden) {
         this.mno = mno;
         this.id = id;
         this.password = password;
@@ -73,7 +66,6 @@ public class Member implements UserDetails {
         this.tel = tel;
         this.addr = addr;
         this.auth = auth;
-        this.regDate = regDate;
         this.hidden = hidden;
     }
 
@@ -90,30 +82,29 @@ public class Member implements UserDetails {
     public String getUsername() {
         return id;
     }
+
     @Override
     public String getPassword() {
         return password;
     }
 
     @Override
-    public boolean isAccountNonExpired() {   // 계정 만료 여부 반환
-        // 만료되었는지 확인하는 로직
-        return true; // true -> 만료되지 않았음
-    }
-    @Override
-    public boolean isAccountNonLocked() {   // 계정 잠금 여부 반환
-        // 계정 잠금되었는지 확인하는 로직
-        return true; // true -> 잠금되지 않았음
-    }
-    @Override
-    public boolean isCredentialsNonExpired() {  // 패스워드의 만료 여부 반환
-        // 패스워드가 만료되었는지 확인하는 로직
-        return true; // true -> 만료되지 않았음
-    }
-    @Override
-    public boolean isEnabled() {    // 계정 사용 가능 여부 반환
-        // 계정이 사용 가능한지 확인하는 로직
-        return true; // true -> 사용 가능
+    public boolean isAccountNonExpired() {
+        return true;
     }
 
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 }

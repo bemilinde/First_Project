@@ -1,8 +1,6 @@
 package com.project.quizzeria;
 
 import com.project.quizzeria.entity.Member;
-import com.project.quizzeria.entity.Notice;
-import com.project.quizzeria.repository.NoticeRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

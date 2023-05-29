@@ -1,53 +1,54 @@
 package com.project.quizzeria.entity;
-
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Builder
-@AllArgsConstructor
-@NoArgsConstructor
 @Getter
-@ToString(exclude = {"quizList", "quizFile"})
+@Setter
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
+@EntityListeners(value = { AuditingEntityListener.class })
 public class Quiz {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long qno;
 
-    @Column(length = 200, nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id", nullable = false)
+    private Member member;
+
+    @Column(nullable = false)
+    private String title;
+
+    @Column(nullable = false)
     private String question;
 
-    @Column(length = 100, nullable = false)
-    private String type;
+    @ElementCollection
+    @CollectionTable(name = "quiz_choices", joinColumns = @JoinColumn(name = "quiz_id"))
+    @Column(name = "choice")
+    private List<String> choices = new ArrayList<>();
 
-    @ColumnDefault("'N'")
-    @Column(length = 10, nullable = false)
-    private String hidden;
+    @Column(nullable = false)
+    private String answer;
 
-    @ColumnDefault("0")
-    @Column
-    private Long likes;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    private QuizList quizList;
-
-    @OneToMany(fetch = FetchType.LAZY)
-    private List<QuizAnswer> quizAnswer;
-
-    @OneToMany(fetch = FetchType.LAZY)
-    private List<QuizFile> quizFile = new ArrayList<>();
-
-    public void changeQuestion(String question){
+    @Builder
+    public Quiz(Long qno, Member member, String title, String question, List<String> choices, String answer){
+        this.qno = qno;
+        this.member = member;
+        this.title = title;
         this.question = question;
+        this.choices = choices;
+        this.answer = answer;
     }
 
-    public void changeQuizFile(List<QuizFile> quizFile){
-        this.quizFile = quizFile;
-    }
 
-    public void changeQuizAnswer(List<QuizAnswer> quizAnswer){ this.quizAnswer = quizAnswer; }
+
 }

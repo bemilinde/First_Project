@@ -53,29 +53,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
 
-
-//    @Autowired //Customizing Search Queries(사용자 테이블을 넘겨주는부분) AuthenticationManagerBuilder 사용시 spring에서 인증처리 제공
-//    public void configureGlobal(AuthenticationManagerBuilder auth)
-//            throws Exception {
-//        auth.jdbcAuthentication()
-//                .dataSource(dataSource)
-//                .passwordEncoder(passwordEncoder())
-//                .usersByUsernameQuery("select id, password, enabled " //Authentication 인증처리
-//                        + "from member "
-//                        + "where id = ?")
-//                .authoritiesByUsernameQuery("select m.id, r.rname " //Authorization 권한처리
-//                        + "from Member_Role mr inner join member m on mr.member_mno = m.mno "
-//                        + "inner join role r on mr.role_rno = r.rno "
-//                        + "where m.id = ?");
-//    }
-
-
-
-//    @Bean //안전하게 암호화할수 있는 방법 spring 제공 ***현재 been충돌로 주석처리
-//    public static PasswordEncoder passwordEncoder() {
-//        return new BCryptPasswordEncoder();
-//    }
-
 }
 
 

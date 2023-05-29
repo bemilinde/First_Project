@@ -1,33 +1,26 @@
 package com.project.quizzeria.dto;
 
-import com.project.quizzeria.entity.QuizAnswer;
-import com.project.quizzeria.entity.QuizFile;
-import com.project.quizzeria.entity.QuizList;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.project.quizzeria.entity.Member;
+import com.project.quizzeria.entity.Quiz;
+import lombok.*;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import java.time.LocalDateTime;
 import java.util.List;
-
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
 @Data
 public class QuizDTO {
     private Long qno;
-
+    private Member member;
+    private String title;
+    private List<String> choices;
     private String question;
+    private String answer;
 
-    private QuizList quizList;
 
-    private String type;
-
-    private String hidden;
-
-    private Long likes;
-
-    private List<QuizAnswer> quizAnswer;
-
-    private List<QuizFile> quizFile;
 }

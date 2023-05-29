@@ -107,10 +107,9 @@
         /*background-color: #e4606d;*/
     }
         #right_btn>button{
-            width: 150px;
-            height: 100px;
-            float: left;
-            margin-left: 37px;
+            width: 400px;
+            height: 80px;
+            align-content: center;
             margin-top: 30px;
         }
 
