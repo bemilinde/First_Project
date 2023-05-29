@@ -32,16 +32,16 @@
                         </div>
                         <div id="ran_choices">
                             <div id="ran_c_1">
-                                <button id="btn-4-1" type="button" class="btn btn-outline-secondary btn1" value="[[${quiz.choices[0]}]]">[[${quiz.choices[0]}]]</button>
+                                <button id="btn-4-1" type="button" class="btn btn-outline-secondary btn1" th:value="${quiz.choices[0]}" >[[${quiz.choices[0]}]]</button>
                             </div>
                             <div id="ran_c_2">
-                                <button id="btn-4-2" type="button" class="btn btn-outline-secondary btn2" value="[[${quiz.choices[1]}]]">[[${quiz.choices[1]}]]</button>
+                                <button id="btn-4-2" type="button" class="btn btn-outline-secondary btn2" th:value="${quiz.choices[1]}" >[[${quiz.choices[1]}]]</button>
                             </div>
                             <div id="ran_c_3">
-                                <button id="btn-4-3" type="button" class="btn btn-outline-secondary btn3" value="[[${quiz.choices[2]}]]">[[${quiz.choices[2]}]]</button>
+                                <button id="btn-4-3" type="button" class="btn btn-outline-secondary btn3" th:value="${quiz.choices[2]}" >[[${quiz.choices[2]}]]</button>
                             </div>
                             <div id="ran_c_4">
-                                <button id="btn-4-4" type="button" class="btn btn-outline-secondary btn4" value="[[${quiz.choices[3]}]]">[[${quiz.choices[3]}]]</button>
+                                <button id="btn-4-4" type="button" class="btn btn-outline-secondary btn4" th:value="${quiz.choices[3]}" >[[${quiz.choices[3]}]]</button>
                             </div>
 
                         </div>
@@ -134,8 +134,11 @@
         // 서버로부터 받은 Quiz 객체의 choices와 answer를 가져옵니다.
         var choices = JSON.parse(`[[${quiz.choices}]]`);
         var answer = [[${quiz.answer}]];
-
+        console.log("선택한 값  choices: " + choices);
+        console.log("선택한 값 : " + selectedChoice);
+        console.log("정답 값 : " + answer);
         // 선택한 선택지와 정답 비교
+        alert(selectedChoice);
         if (selectedChoice === answer) {
             // 정답인 경우
             alert('정답입니다!');

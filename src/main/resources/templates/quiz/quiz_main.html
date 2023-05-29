@@ -33,7 +33,11 @@
                     </thead>
                     <tbody>
                     <tr id="board_table" th:each="dto : ${read.dtoList}">
-                        <td scope="row">[[${dto.title}]]</td>
+                        <th scope="row">
+                            <a th:href="@{/quiz/quiz_view(qno=${dto.qno})}">
+                                [[${dto.title}]]
+                            </a>
+                        </th>
                         <td class="text-center">[[${dto.member.id}]]</td>
                         <td class="text-center">조회수</td>
                         <td class="text-center">좋아요</td>

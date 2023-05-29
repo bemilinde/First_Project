@@ -15,7 +15,15 @@ public interface QuizService {
 
     PageResultDTO<QuizDTO, Quiz> getQuiz(PageRequestDTO requestDTO);
 
+    QuizDTO read(Long qno);
+
     QuizDTO getRandomQuiz();
+
+    QuizDTO getQuiz(Long qno);
+
+
+
+    void quizDelete(Long bno);
 
     default Quiz dtoToEntity(QuizDTO dto){
         Quiz entity = Quiz.builder()

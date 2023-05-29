@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.IntStream;
 
@@ -47,14 +48,48 @@ public class QuizServiceImpl implements QuizService {
     }
 
     @Override
-    public QuizDTO getRandomQuiz() {
-        // 데이터베이스에서 랜덤한 퀴즈를 가져옵니다.
-        Quiz randomQuiz = quizRepository.findRandomQuiz(); // 이 메서드는 리포지토리에서 구현해야 합니다.
+    public QuizDTO read(Long qno) {
+        Optional<Quiz> result = quizRepository.findById(qno);
+        if (result.isPresent()) {
+            Quiz quiz = result.get();
+//            quiz.increaseViews(); // 조회수 증가
+//            quizRepository.save(board); // 변경된 조회수를 저장
+            log.info("Board Read End");
+            return entityToDTO(quiz);
+        }
+        return null;
+    }
 
-        // Quiz 엔티티를 QuizDTO로 변환합니다.
+    @Override
+    public QuizDTO getQuiz(Long qno) {
+        Quiz getQuiz = quizRepository.findQuizByQno(qno);
+        if (getQuiz != null) {
+            QuizDTO getQuizDTO = new QuizDTO();
+            getQuizDTO.setQno(getQuiz.getQno());
+            getQuizDTO.setMember(getQuiz.getMember());
+            getQuizDTO.setTitle(getQuiz.getTitle());
+            getQuizDTO.setQuestion(getQuiz.getQuestion());
+            getQuizDTO.setChoices(getQuiz.getChoices());
+            getQuizDTO.setAnswer(getQuiz.getAnswer());
+            return getQuizDTO;
+        }
+        return null;
+    }
+
+    @Override
+    public QuizDTO getRandomQuiz() {
+
+        Quiz randomQuiz = quizRepository.findRandomQuiz();
         QuizDTO randomQuizDTO = entityToDTO(randomQuiz);
 
         return randomQuizDTO;
+    }
+
+    @Override
+    public void quizDelete(Long qno) {
+        log.info("Board Delete Start");
+        quizRepository.deleteById(qno);
+        log.info("Board Delete End");
     }
 
 

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Quizzeria_Quiz</title>
+
+  <link th:href="@{/css/style.css}" rel="stylesheet">
+  <link th:href="@{/css/quiz/quiz_view.css}" rel="stylesheet">
+</head>
+
+<body>
+<header th:replace="/layout/header_layout :: header_layout"></header>
+<div id="container">
+
+  <div id="left">
+    <div id="quiz_main">
+      <h3 class = "mt-4" id="quiz_header">
+            <span style="margin-left: 80px">
+                Quiz 보기
+            </span>
+      </h3>
+
+      <div id="quiz_mid">
+        <div id="quiz_question" class="card text-center" >
+          [[${dto.question}]]
+        </div>
+      </div>
+      <div id="quiz_bottom">
+        <div id="quiz_choices">
+          <div id="quiz_1">
+            <button id="btn-4-1" type="button" class="btn btn-outline-secondary btn1" th:text="${dto.choices[0]}">${dto.choices[0]}</button>
+          </div>
+          <div id="quiz_2">
+            <button id="btn-4-2" type="button" class="btn btn-outline-secondary btn2" th:text="${dto.choices[1]}">${dto.choices[1]}</button>
+          </div>
+          <div id="quiz_3">
+            <button id="btn-4-3" type="button" class="btn btn-outline-secondary btn3" th:text="${dto.choices[2]}">${dto.choices[2]}</button>
+          </div>
+          <div id="quiz_4">
+            <button id="btn-4-4" type="button" class="btn btn-outline-secondary btn4" th:text="${dto.choices[3]}">${dto.choices[3]}</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div id="right">
+    <div id="userInfo">
+      <div id="userInfo_top">
+        <img th:src="@{/css/images/quiz/member_InfoImg.png}">
+      </div>
+      <div id="userInfo_mid">
+        <h3 class="mt-3">내 정보</h3>
+      </div>
+      <div id="userInfo_bottom">
+        <div class="textForm">
+          <span class="label">아이디</span>
+          <span class="value">[[${#authentication.principal.id}]]</span>
+        </div>
+        <div class="textForm">
+          <span class="label">이름</span>
+          <span class="value">[[${#authentication.principal.name}]]</span>
+        </div>
+        <div class="textForm">
+          <span class="label">이메일</span>
+          <span class="value">[[${#authentication.principal.email}]]</span>
+        </div>
+      </div>
+    </div>
+    <div id="left_btn">
+       <button type="button" class="btn btn-outline-secondary" onclick="location.href='#'">수정하기</button>
+    </div>
+    <div id="mid_btn" th:if="${#authentication.principal.id eq dto.member.id}">
+      <a th:href="@{/quiz/quizDelete(qno=${dto.qno})}">
+       <button type="button" class="btn btn-outline-secondary">삭제하기</button>
+      </a>
+    </div>
+
+    <div id="right_btn">
+      <button type="button" class="btn btn-outline-secondary" onclick="location.href='./quiz_main'">뒤로가기</button>
+    </div>
+
+  </div>
+
+</div>
+
+<footer th:replace="/layout/footer_layout :: footer_layout"></footer>
+</body>
+
+</html>
