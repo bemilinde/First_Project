@@ -69,10 +69,7 @@
         </div>
       </div>
     </div>
-    <div id="left_btn">
-       <button type="button" class="btn btn-outline-secondary" onclick="location.href='#'">수정하기</button>
-    </div>
-    <div id="mid_btn" th:if="${#authentication.principal.id eq dto.member.id}">
+    <div id="mid_btn" th:if="${#authentication.principal.id eq dto.member.id }">
       <a th:href="@{/quiz/quizDelete(qno=${dto.qno})}">
        <button type="button" class="btn btn-outline-secondary">삭제하기</button>
       </a>
@@ -88,5 +85,19 @@
 
 <footer th:replace="/layout/footer_layout :: footer_layout"></footer>
 </body>
+<script th:inline="javascript">
+  // 버튼 클릭 시 선택된 값 출력
+  function handleClick(value) {
+    alert(value);
+  }
 
+  // 버튼 클릭 이벤트 핸들러 등록
+  var buttons = document.querySelectorAll(".btn");
+  buttons.forEach(function(button) {
+    button.addEventListener("click", function() {
+      var value = button.innerText;
+      handleClick(value);
+    });
+  });
+</script>
 </html>

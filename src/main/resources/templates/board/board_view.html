@@ -41,7 +41,7 @@
                 <button type="button" class="btn btn-outline-primary">수정</button>
               </a>
           </span>
-              <span th:if="${#authentication.principal.id eq dto.member.id}">
+              <span th:if="${#authentication.principal.id eq dto.member.id}" >
               <a th:href="@{/board/delete(bno=${dto.bno})}">
                 <button type="button" class="btn btn-outline-primary">삭제</button>
               </a>

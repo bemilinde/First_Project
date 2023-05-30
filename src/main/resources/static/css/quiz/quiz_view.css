@@ -39,8 +39,9 @@
     }
 
 #quiz_bottom{
-    width: 840px;
+    width: 640px;
     height: 300px;
+    margin-left: 130px;
 }
 
     #quiz_choices{
@@ -50,10 +51,9 @@
 
     }
         #quiz_choices>div>button{
-            width: 70%;
+            width: 80%;
             height: 70%;
             align-content: center;
-            margin-left: 60px;
         }
             #quiz_1 {
                 width: 50%;

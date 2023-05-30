@@ -38,8 +38,7 @@
               <th scope="col" style="width: 16%;" class="text-center">게시일</th>
             </tr>
             </thead>
-            <today>
-
+            <tbody>
               <tr id="board_table" th:each="dto : ${result.dtoList}">
                 <td class="text-center">[[${dto.bno}]]</td>
                 <th scope="row">
@@ -52,7 +51,9 @@
                 <td class="text-center">[[${dto.likes}]]</td>
                 <td class="text-center">[[${#temporals.format(dto.regDate, 'yyyy/MM/dd')}]]</td>
               </tr>
-            </today>
+              </tr>
+              </tr>
+            </tbody>
           </table>
 
         <ul class="pagination h-100 justify-content-center align-items-center">
