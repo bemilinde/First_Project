@@ -49,6 +49,4 @@ public class Quiz {
         this.answer = answer;
     }
 
-
-
 }

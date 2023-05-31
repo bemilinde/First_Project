@@ -21,8 +21,6 @@ public interface QuizService {
 
     QuizDTO getQuiz(Long qno);
 
-
-
     void quizDelete(Long bno);
 
     default Quiz dtoToEntity(QuizDTO dto){

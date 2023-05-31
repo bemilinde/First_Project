@@ -12,6 +12,6 @@ import org.springframework.stereotype.Repository;
 public interface QuizRepository extends JpaRepository<Quiz, Long>, QuerydslPredicateExecutor<Quiz> {
     @Query(value = "SELECT * FROM quiz ORDER BY RAND() LIMIT 1", nativeQuery = true)
     Quiz findRandomQuiz();
-
     Quiz findQuizByQno(Long qno);
+
 }

@@ -22,6 +22,4 @@ public class QuizDTO {
     private String question;
     private String answer;
 
-
-
 }

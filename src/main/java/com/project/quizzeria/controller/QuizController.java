@@ -35,11 +35,11 @@ public class QuizController {
         model.addAttribute("read", quizService.getQuiz(pageRequestDTO));
     }
 
-
     @GetMapping({"/quiz/quiz_create"})
     public void create(){
         log.info("quiz_create In");
     }
+
     @PostMapping({"/quiz/quiz_create"})
     public String createPost(QuizDTO dto, PageRequestDTO pageRequestDTO, Model model){
         log.info("dto..." + dto);
@@ -55,8 +55,6 @@ public class QuizController {
         quizService.quizDelete(qno);
         return "redirect:/quiz/quiz_main";
     }
-
-
 
 }
 

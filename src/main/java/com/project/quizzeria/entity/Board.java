@@ -42,8 +42,6 @@ public class Board extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private Member member;
 
-
-
     public void changeTitle(String title){
         this.title = title;
     }
@@ -60,7 +58,5 @@ public class Board extends BaseEntity {
         this.likes += 1;
         this.views -= 1;
     }
-
-
 
 }

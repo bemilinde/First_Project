@@ -86,12 +86,10 @@
 <footer th:replace="/layout/footer_layout :: footer_layout"></footer>
 </body>
 <script th:inline="javascript">
-  // 버튼 클릭 시 선택된 값 출력
   function handleClick(value) {
     alert(value);
   }
 
-  // 버튼 클릭 이벤트 핸들러 등록
   var buttons = document.querySelectorAll(".btn");
   buttons.forEach(function(button) {
     button.addEventListener("click", function() {

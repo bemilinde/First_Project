@@ -16,7 +16,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @RequiredArgsConstructor
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-
     private final MemberServiceImpl memberServiceImpl;
 
     @Override //resources에 보안을 걸지 않는다 bootstrap 사용시 css폴더에 첨부해야만 사용가능
@@ -41,17 +40,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .and()
                 .logout()
                     .logoutSuccessUrl("/member/member_login")
-                    .invalidateHttpSession(true)
-                ;
+                    .invalidateHttpSession(true);
     }
-
 
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception{
         auth.userDetailsService(memberServiceImpl)
                 .passwordEncoder(new BCryptPasswordEncoder());
     }
-
 
 }
 

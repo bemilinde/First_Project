@@ -17,8 +17,6 @@ public class MemberServiceImpl implements UserDetailsService  {
 
     private final MemberRepository memberRepository;
 
-
-
     /**
      * Spring Security 필수 메소드 구현
      *
@@ -31,8 +29,6 @@ public class MemberServiceImpl implements UserDetailsService  {
         return memberRepository.findById(id)
                 .orElseThrow(() -> new UsernameNotFoundException((id)));
     }
-
-
 
     /**
      * 회원정보 저장
@@ -57,15 +53,4 @@ public class MemberServiceImpl implements UserDetailsService  {
                 .hidden(memberDTO.getHidden())
                 .build()).getMno();
     }
-
-    /**
-     * 사용자 정보를 아이디로 조회
-     *
-     * @param id 조회할 사용자의 아이디
-     * @return 조회된 사용자 정보
-     * @throws UsernameNotFoundException 유저가 없을 때 예외 발생
-     */
-
-
-
 }

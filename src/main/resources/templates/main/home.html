@@ -131,7 +131,7 @@
 <script th:inline="javascript">
 
     function checkAnswer(selectedChoice) {
-        // 서버로부터 받은 Quiz 객체의 choices와 answer를 가져옵니다.
+
         var choices = JSON.parse(`[[${quiz.choices}]]`);
         var answer = [[${quiz.answer}]];
         console.log("선택한 값  choices: " + choices);
@@ -150,7 +150,6 @@
         // }
     }
 
-    // 선택지 버튼 클릭 이벤트 처리
     document.getElementById('btn-4-1').addEventListener('click', function() {
         var selectedChoice = document.getElementById('btn-4-1').value;
         checkAnswer(selectedChoice);

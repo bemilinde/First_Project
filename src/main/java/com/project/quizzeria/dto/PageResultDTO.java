@@ -13,9 +13,7 @@ import java.util.stream.IntStream;
 public class PageResultDTO<DTO, EN> {
 
     private List<DTO> dtoList;
-
     private int totalPage;
-
     private int page;
     private int size;
     private int start, end;
